@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Solar Shops{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --accent: #f72585;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --nav-bg-light: rgba(255, 255, 255, 0.95);
+            --nav-bg-dark: rgba(33, 37, 41, 0.95);
+            --text-light: #212529;
+            --text-dark: #f8f9fa;
+        }
+
+      body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #171616da;
+    background-image: url("{{ url_for('static', filename='images/Untitled.jpegg') }}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+/* Add an overlay for better readability */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: -1;
+}
+
+/* For sections that need to stand out */
+.section-with-bg {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Hero section adjustments */
+.hero-section {
+    background: linear-gradient(135deg, rgba(67, 97, 238, 0.9), rgba(58, 12, 163, 0.9));
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("{{ url_for('static', filename='images/untitled.jpge') }}");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+[data-bs-theme="dark"] body {
+    background-color: rgba(33, 37, 41, 0.8);
+    color: var(--light);
+}
+
+        /* Navbar styling */
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 0;
+            transition: var(--transition);
+            background-color: var(--nav-bg-light);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        [data-bs-theme="dark"] .navbar {
+            background-color: var(--nav-bg-dark);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-light);
+        }
+
+        [data-bs-theme="dark"] .navbar-brand {
+            color: var(--text-dark);
+        }
+
+        .navbar-brand img {
+            height: 36px;
+        }
+
+        .navbar-brand span {
+            color: var(--primary);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+            color: var(--primary);
+        }
+
+        .nav-link {
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+        }
+
+        [data-bs-theme="dark"] .nav-link {
+            color: var(--text-dark);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("{{ url_for('static', filename='images/untitled.jpge') }}");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2867, 97, 238, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        [data-bs-theme="dark"] .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2867, 97, 238, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary) !important;
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        [data-bs-theme="dark"] .nav-link:hover, 
+        [data-bs-theme="dark"] .nav-link.active {
+            background-color: rgba(67, 97, 238, 0.2);
+        }
+
+        .nav-link .badge {
+            position: relative;
+            top: -1px;
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            background-color: var(--light);
+        }
+
+        [data-bs-theme="dark"] .dropdown-menu {
+            background-color: #343a40;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .dropdown-item {
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            transition: var(--transition);
+            color: var(--text-light);
+        }
+
+        [data-bs-theme="dark"] .dropdown-item {
+            color: var(--text-dark);
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        [data-bs-theme="dark"] .dropdown-item:hover {
+            background-color: rgba(67, 97, 238, 0.2);
+        }
+
+        /* Search bar */
+        .search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--light-gray);
+            background-color: var(--light);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            color: var(--text-light);
+        }
+
+        [data-bs-theme="dark"] .search-input {
+            background-color: #495057;
+            border-color: #495057;
+            color: var(--text-dark);
+        }
+
+        .search-input:focus {
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.2);
+            border-color: var(--primary);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: var(--gray);
+        }
+
+        /* Main content */
+        .main-container {
+            flex: 1;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        /* Flash messages */
+        .alert {
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            border: none;
+            padding: 1rem 1.5rem;
+        }
+
+        /* Footer styling */
+        .footer {
+            background: linear-gradient(135deg, #0a0a0a, #0f172a);
+            color: white;
+            padding: 3rem 0 2rem;
+            margin-top: auto;
+        }
+
+        .footer h5 {
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .footer h5::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(249, 245, 245, 0.425);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: #eaecef;
+        }
+
+        /* Dark mode toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        [data-bs-theme="dark"] .theme-toggle:hover {
+            background-color: rgba(67, 97, 238, 0.2);
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 1000;
+            text-decoration: none;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        /* Admin specific styles */
+        .admin-nav {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+        }
+
+        .admin-nav .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .admin-nav .nav-link:hover,
+        .admin-nav .nav-link.active {
+            color: white !important;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .navbar-collapse {
+                padding: 1rem;
+                background-color: var(--nav-bg-light);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border-radius: 0 0 10px 10px;
+                margin-top: 10px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            
+            [data-bs-theme="dark"] .navbar-collapse {
+                background-color: var(--nav-bg-dark);
+            }
+            
+            .nav-item {
+                margin: 0.25rem 0;
+            }
+            
+            .search-container {
+                margin: 1rem 0;
+                max-width: 100%;
+            }
+            
+            .navbar-nav .btn {
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-brand span {
+                display: none;
+            }
+            
+            .footer .col-lg-4, 
+            .footer .col-lg-2, 
+            .footer .col-md-4 {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+    {% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}">
+    {% endblock %}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-black bg-transparent {% if request.path.startswith('/admin') %}admin-nav{% endif %}">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('main.home') }}">
+                <i class="fas fa-solar-panel"></i>
+                <span>LINUX SOLAR</span>Shops
+            </a>
+            
+            <!-- Search bar on frontend -->
+            {% if not request.path.startswith('/admin') %}
+            <div class="search-container d-none d-lg-block">
+                <form class="d-flex" action="{{ url_for('main.search') }}" method="GET">
+                    <input class="form-control search-input" 
+                           type="search" 
+                           name="q" 
+                           placeholder="Search products, brands, categories..." 
+                           value="{{ request.args.get('q', '') }}"
+                           aria-label="Search">
+                    <button class="search-btn" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                {% if request.path.startswith('/admin') %}
+                    <!-- Admin navigation links -->
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.admin_dashboard') %}active{% endif %}" href="{{ url_for('main.admin_dashboard') }}">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.product_management') %}active{% endif %}" href="{{ url_for('main.product_management') }}">
+                                <i class="fas fa-box"></i> Products
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.brand_management') %}active{% endif %}" href="{{ url_for('main.brand_management') }}">
+                                <i class="fas fa-tags"></i> Brands
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.category_management') %}active{% endif %}" href="{{ url_for('main.category_management') }}">
+                                <i class="fas fa-list"></i> Categories
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.user_management') %}active{% endif %}" href="{{ url_for('main.user_management') }}">
+                                <i class="fas fa-users"></i> Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.order_management') %}active{% endif %}" href="{{ url_for('main.order_management') }}">
+                                <i class="fas fa-shopping-cart"></i> Orders
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.settings') %}active{% endif %}" href="{{ url_for('main.settings') }}">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="adminNotificationsDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-bell"></i>
+                                {% set unread_count = current_user.get_unread_notifications_count() %}
+                                {% if unread_count > 0 %}
+                                <span class="badge bg-danger">{{ unread_count }}</span>
+                                {% endif %}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminNotificationsDropdown">
+                                <li><h6 class="dropdown-header">Notifications</h6></li>
+                                {% if current_user.notifications.count() > 0 %}
+                                    {% for notification in current_user.notifications.order_by(AdminNotification.created_at.desc()).limit(5) %}
+                                        <li><a class="dropdown-item" href="{{ url_for('main.mark_notification_read', id=notification.id) }}">{{ notification.message }}</a></li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li><a class="dropdown-item" href="#">No new notifications</a></li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-center" href="{{ url_for('main.admin_notifications') }}">View all</a></li>
+                            </ul>
+                        </li>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="adminUserDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle"></i> {{ current_user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminUserDropdown">
+                                <li><a class="dropdown-item" href="{{ url_for('main.user_profile') }}"><i class="fas fa-user me-2"></i> Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('main.home') }}"><i class="fas fa-eye me-2"></i> View Site</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ url_for('main.logout') }}"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% else %}
+                    <!-- Frontend navigation links -->
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.home') %}active{% endif %}" href="{{ url_for('main.home') }}">
+                                <i class="fas fa-home"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.products') %}active{% endif %}" href="{{ url_for('main.products') }}">
+                                <i class="fas fa-box-open"></i> Products
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.brands') %}active{% endif %}" href="{{ url_for('main.brands') }}">
+                                <i class="fas fa-tag"></i> Brands
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.categories') %}active{% endif %}" href="{{ url_for('main.categories') }}">
+                                <i class="fas fa-list"></i> Categories
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.contact') %}active{% endif %}" href="{{ url_for('main.contact') }}">
+                                <i class="fas fa-envelope"></i> Contact
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == url_for('main.about') %}active{% endif %}" href="{{ url_for('main.about') }}">
+                                <i class="fas fa-info-circle"></i> About
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <ul class="navbar-nav ms-auto">
+                        <!-- Mobile search -->
+                        <li class="nav-item d-lg-none w-100 mb-2">
+                            <div class="search-container">
+                                <form class="d-flex" action="{{ url_for('main.search') }}" method="GET">
+                                    <input class="form-control search-input" 
+                                           type="search" 
+                                           name="q" 
+                                           placeholder="Search products, brands, categories..." 
+                                           value="{{ request.args.get('q', '') }}"
+                                           aria-label="Search">
+                                    <button class="search-btn" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                        
+                        {% if current_user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('main.user_profile') }}">
+                                    <i class="fas fa-user"></i>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a class="nav-link position-relative" href="{{ url_for('main.cart') }}">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    {% if current_user.is_authenticated %}
+                                        {% set cart = Cart.query.filter_by(user_id=current_user.id).first() %}
+                                        {% if cart and cart.items %}
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                {{ cart.items|length }}
+                                                <span class="visually-hidden">items in cart</span>
+                                            </span>
+                                        {% endif %}
+                                    {% endif %}
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user-circle"></i> {{ current_user.username }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="{{ url_for('main.user_profile') }}"><i class="fas fa-user me-2"></i> Profile</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-history me-2"></i> Order History</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i> Wishlist</a></li>
+                                    {% if current_user.is_administrator() %}
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('main.admin_dashboard') }}"><i class="fas fa-cog me-2"></i> Admin Dashboard</a></li>
+                                    {% endif %}
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('main.logout') }}"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('main.login') }}">
+                                    <i class="fas fa-sign-in-alt"></i> Login
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-primary rounded-pill px-3 ms-lg-2 mt-2 mt-lg-0" href="{{ url_for('main.register') }}">
+                                    <i class="fas fa-user-plus"></i> Register
+                                </a>
+                            </li>
+                        {% endif %}
+                        
+                        <li class="nav-item ms-lg-2">
+                            <button class="theme-toggle nav-link" id="themeToggle" aria-label="Toggle theme">
+                                <i class="fas fa-moon"></i>
+                            </button>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <!-- Toasts will be inserted here dynamically -->
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="container">
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="row">
+                        <div class="col-12">
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5>Solar Shops</h5>
+                    <p class="mt-3" style="color: #cbd5e1; line-height: 1.7;">
+                        Your trusted partner for solar panels, inverters, batteries, and complete solar energy solutions. Power your home or business with clean, renewable energy.
+                    </p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5>Shop</h5>
+                    <ul class="footer-links">
+                        <li><a href="{{ url_for('main.products') }}"><i class="fas fa-chevron-right me-2"></i> All Solar Products</a></li>
+                        <li><a href="{{ url_for('main.brands') }}"><i class="fas fa-chevron-right me-2"></i> Brands</a></li>
+                        <li><a href="{{ url_for('main.categories') }}"><i class="fas fa-chevron-right me-2"></i> Categories</a></li>
+                        
+                    
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5>Customer</h5>
+                    <ul class="footer-links">
+                        <li><a href="{{ url_for('main.user_profile') }}"><i class="fas fa-chevron-right me-2"></i> My Account</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-2"></i> Order History</a></li>
+                                                                    
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4 col-md-4">
+                    <h5>Contact Us</h5>
+                    <ul class="footer-links">
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-map-marker-alt me-2"></i> 
+                               Limbe Isokolo, Cameroon
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+11234567890">
+                                <i class="fas fa-phone me-2"></i> 
+                                +41 77 279 13 16
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:support@solarshops.com">
+                                <i class="fas fa-envelope me-2"></i> 
+                               lug.limbe@gmail.com
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('main.contact') }}">
+                                <i class="fas fa-headset me-2"></i> 
+                                Contact Support
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('main.about') }}">
+                                <i class="fas fa-info-circle me-2"></i> 
+                                About Solar Shops
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="copyright">
+                        <p class="mb-0">&copy; {{ now.year if now else '2024' }} Solar Shops. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-bs-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            
+            // Show toast notification
+            showToast(`Switched to ${newTheme === 'dark' ? 'Dark' : 'Light'} mode`);
+        });
+        
+        function updateThemeIcon(theme) {
+            if (theme === 'dark') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        }
+        
+        // Back to top button
+        const backToTop = document.querySelector('.back-to-top');
+        const navbarCollapse = document.getElementById('navbarNav');
+
+        function updateBackToTopVisibility() {
+            // Hide back-to-top if menu is open (shown), else show based on scroll
+            const menuOpen = navbarCollapse.classList.contains('show');
+            if (menuOpen) {
+                backToTop.classList.remove('show');
+            } else if (window.pageYOffset > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        }
+
+        window.addEventListener('scroll', updateBackToTopVisibility);
+
+        // Listen for menu open/close events
+        navbarCollapse.addEventListener('shown.bs.collapse', updateBackToTopVisibility);
+        navbarCollapse.addEventListener('hidden.bs.collapse', updateBackToTopVisibility);
+
+        backToTop.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Initialize tooltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        
+        // Update the search functionality
+        const searchForms = document.querySelectorAll('form[action="{{ url_for("main.search") }}"]');
+        searchForms.forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const input = this.querySelector('input[name="q"]');
+                if (!input.value.trim()) {
+                    e.preventDefault();
+                    showToast('Please enter a search term', 'warning');
+                    return false;
+                }
+            });
+        });
+        
+        // Cart item count animation
+        const cartBadges = document.querySelectorAll('.nav-link .badge');
+        cartBadges.forEach(badge => {
+            badge.addEventListener('animationend', () => {
+                badge.classList.remove('animate__tada');
+            });
+        });
+        
+        // Toast notification function
+        function showToast(message, type = 'success') {
+            const toastContainer = document.querySelector('.toast-container');
+            const toastEl = document.createElement('div');
+            toastEl.className = `toast align-items-center text-white bg-${type} border-0`;
+            toastEl.setAttribute('role', 'alert');
+            toastEl.setAttribute('aria-live', 'assertive');
+            toastEl.setAttribute('aria-atomic', 'true');
+            
+            toastEl.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toastEl);
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+            
+            // Remove toast after it's hidden
+            toastEl.addEventListener('hidden.bs.toast', () => {
+                toastEl.remove();
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle all add to cart forms
+            document.querySelectorAll('form[action*="/cart/add/"]').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Adding...';
+
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: new FormData(this),
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then data => {
+                        if (data.status === 'success') {
+                            // Update cart count in navbar
+                            const cartBadge = document.querySelector('.cart-count');
+                            if (cartBadge) {
+                                cartBadge.textContent = data.cart_count;
+                                cartBadge.classList.add('animate__animated', 'animate__tada');
+                            }
+                            
+                            // Show success toast
+                            showToast('Product added to cart!', 'success');
+                        } else {
+                            showToast('Failed to add item to cart.', 'danger');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showToast('Failed to add item to cart.', 'danger');
+                    })
+                    .finally(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalText;
+                    });
+                });
+            });
+        });
+    </script>
+    {% block extra_js %}
+    <script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+    {% if request.endpoint == 'main.forgot_password' %}
+    <script src="{{ url_for('static', filename='js/forgot_password.js') }}"></script>
+    {% endif %}
+    {% endblock %}
+</body>
+</html>

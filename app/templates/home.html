@@ -1,0 +1,1271 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Solar Shops{% endblock %}
+{% block head %}
+{{ super() }}
+<style>
+    /* General Styles */
+   body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #171616da;
+    background-image: url("{{ url_for('static', filename='images/Untitled.png') }}");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+/* Add an overlay for better readability */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: -1;
+}
+
+/* For sections that need to stand out */
+.section-with-bg {
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin: 2rem 0;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Hero section adjustments */
+.hero-section {
+    background: linear-gradient(135deg, rgba(67, 97, 238, 0.9), rgba(58, 12, 163, 0.9));
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("{{ url_for('static', filename='app/static/images/untitled.jpge') }}");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+    /* Hero Section */
+    .hero-section {
+        background: linear-gradient(135deg, #31de42, #3a0ca3);
+        color: white;
+        padding: 5rem 0;
+        margin-bottom: 4rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+    
+    .hero-btns {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .hero-image {
+        position: relative;
+        z-index: 2;
+        animation: float 6s ease-in-out infinite;
+        border-radius: 32px;
+        box-shadow: 0 12px 40px rgba(58,12,163,0.18), 0 2px 8px rgba(49,222,66,0.10);
+        background: linear-gradient(135deg, #ffffff 60%, #e0ffe7 100%);
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .hero-image img {
+        border-radius: 24px;
+        box-shadow: 0 4px 24px rgba(49,222,66,0.10);
+        background: #fff;
+        max-width: 90%;
+        max-height: 340px;
+        object-fit: cover;
+        transition: transform 0.4s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
+    }
+    .hero-image:hover, .hero-image:focus {
+        box-shadow: 0 24px 64px rgba(58,12,163,0.22), 0 8px 24px rgba(49,222,66,0.13);
+        transform: scale(1.03) translateY(-6px);
+    }
+    .hero-image:hover img, .hero-image:focus img {
+        transform: scale(1.04) rotate(-2deg);
+        box-shadow: 0 8px 32px rgba(49,222,66,0.16);
+    }
+    @media (max-width: 768px) {
+        .hero-image {
+            padding: 0.5rem;
+            border-radius: 18px;
+        }
+        .hero-image img {
+            border-radius: 12px;
+            max-width: 100%;
+            max-height: 220px;
+        }
+    }
+    
+    .hero-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("{{ url_for('static', filename='images/Untitled.png') }}");
+        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        opacity: 0.3;
+    }
+    
+    /* Featured Categories */
+    .categories-section {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+}
+
+.section-title {
+    margin-bottom: 40px;
+    color: #333;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.category-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    overflow: hidden;
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.category-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.category-image img {
+    transition: transform 0.5s ease;
+}
+
+.category-card:hover .category-image img {
+    transform: scale(1.1);
+}
+
+.category-body {
+    padding: 2rem;
+    text-align: center;
+}
+
+.category-body h3 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.category-body p {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.category-body .btn-primary {
+    background-color: hsl(0, 0%, 6%);
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+.category-body .btn-primary:hover {
+    background-color: #ed7009;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .category-body {
+        padding: 1.5rem;
+    }
+}
+
+    
+    /* Product Cards */
+    .product-card {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        height: 100%;
+        position: relative;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .image-container {
+        position: relative;
+        aspect-ratio: 1/1;
+        overflow: hidden;
+    }
+    
+    .product-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+    
+    .product-card:hover .product-image {
+        transform: scale(1.05);
+    }
+    
+    .quick-view-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+    
+    .product-card:hover .quick-view-overlay {
+        opacity: 1;
+        pointer-events: all;
+    }
+    
+    .quick-view-btn {
+        background: rgba(255, 255, 255, 0.9);
+        color: #333;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    
+    .quick-view-btn:hover {
+        background: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    .product-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #2d3748;
+    }
+    
+    .price {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #e53e3e;
+        margin-bottom: 0.25rem;
+    }
+    
+    .brand {
+        font-size: 0.9rem;
+        color: #afd117;
+        margin-bottom: 1rem;
+    }
+    
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 1.5rem;
+        background: #f8fafc;
+        border-top: 1px solid #edf2f7;
+    }
+    
+    .view-details-btn {
+        flex-grow: 1;
+    }
+    
+    .add-to-cart-btn {
+        min-width: 140px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .add-to-cart-btn:disabled {
+        cursor: not-allowed;
+    }
+    
+    .add-to-cart-btn .btn-text,
+    .add-to-cart-btn .btn-loading,
+    .add-to-cart-btn .btn-added {
+        transition: all 0.3s ease;
+    }
+    
+    .add-to-cart-btn.loading .btn-text,
+    .add-to-cart-btn.added .btn-text {
+        display: none;
+    }
+    
+    .add-to-cart-btn.loading .btn-loading {
+        display: inline-block !important;
+    }
+    
+    .add-to-cart-btn.added {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+    
+    .add-to-cart-btn.added .btn-added {
+        display: inline-block !important;
+    }
+    
+    .add-to-cart-btn:not(:disabled):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    /* Testimonials */
+    .testimonials-section {
+        background: #f8fafc;
+        padding: 4rem 0;
+        margin: 4rem 0;
+    }
+    
+    .testimonial-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        height: 100%;
+    }
+    
+    .testimonial-text {
+        font-style: italic;
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+    
+    .testimonial-text::before {
+        content: '"';
+        font-size: 4rem;
+        position: absolute;
+        top: -20px;
+        left: -15px;
+        color: #60ee43;
+        opacity: 0.2;
+        font-family: Georgia, serif;
+    }
+    
+    .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .author-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    
+    /* Newsletter */
+    .newsletter-section {
+        background: linear-gradient(135deg, #a3410c, #eee343);
+        color: rgb(6, 6, 6);
+        padding: 4rem 0;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        margin: 4rem 0;
+    }
+    
+    .newsletter-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    }
+    
+    .newsletter-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .newsletter-form {
+        display: flex;
+        gap: 1rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* Skeleton Loading Animation */
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #f0f2f5 25%, #e6e9ef 50%, #f0f2f5 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 8px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.25rem;
+    }
+    
+    .hero-image {
+        margin-top: 2rem;
+    }
+    
+    .categories-section .btn-cannabis {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-btns {
+        flex-direction: column;
+    }
+    
+    .newsletter-form {
+        flex-direction: column;
+    }
+    
+    .categories-section .btn-cannabis {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .hero-btns .btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .categories-section .btn-cannabis {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-pattern"></div>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 hero-content">
+                <h1 class="hero-title">Empowering Your World with Solar Energy</h1>
+                <p class="hero-subtitle">Solar Shops: Your trusted source for premium solar panels, inverters, batteries, and complete solar solutions. Harness the power of the sun for a brighter, sustainable future.</p>
+                <div class="hero-btns">
+                    <a href="{{ url_for('main.products') }}" class="btn btn-light btn-lg px-4 py-3 hero-btn-main">Shop Now</a>
+                    <a href="#featured" class="btn btn-outline-light btn-lg px-4 py-3 hero-btn-featured">Solar Products</a>
+                </div>
+                <style>
+                .hero-btns .btn {
+                    font-size: 1.15rem;
+                    font-weight: 700;
+                    border-radius: 32px;
+                    box-shadow: 0 4px 16px rgba(67,97,238,0.10);
+                    transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+                }
+                .hero-btns .hero-btn-main {
+                    background: #189331c5;
+                    color: #3a0ca3;
+                    border: 2px solid #fff;
+                }
+                .hero-btns .hero-btn-main:hover, .hero-btns .hero-btn-main:focus {
+                    background: #ed840c;
+                    color: #fff;
+                    border-color: #4361ee;
+                    transform: translateY(-2px) scale(1.03);
+                    box-shadow: 0 8px 24px rgba(67,97,238,0.18);
+                }
+                .hero-btns .hero-btn-featured {
+                    background: transparent;
+                    color: #fff;
+                    border: 2px solid #fff;
+                }
+                .hero-btns .hero-btn-featured:hover, .hero-btns .hero-btn-featured:focus {
+                    background: #0ccf23c7;
+                    color: #3a0ca3;
+                    border-color: #fff;
+                    transform: translateY(-2px) scale(1.03);
+                    box-shadow: 0 8px 24px rgba(67,97,238,0.18);
+                }
+                @media (max-width: 768px) {
+                    .hero-btns .btn {
+                        width: 100%;
+                        font-size: 1rem;
+                        padding: 0.75rem 1.5rem;
+                    }
+                }
+                </style>
+            </div>
+            <div class="col-lg-6 text-center hero-image">
+                <img src="{{ url_for('static', filename='images/solar-hero.jpg') }}" alt="Solar Panels" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Categories -->
+<section class="categories-section">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Shop By Solar Category</h2>
+        <div class="d-flex flex-wrap justify-content-center gap-4">
+            {% for category in categories %}
+            <div class="category-card d-flex flex-column align-items-center px-4 py-3" style="min-width:220px; max-width:260px;">
+                <div class="category-image text-center" style="z-index:1;">
+                    {% if category.image %}
+                    <img src="{{ url_for('static', filename='uploads/' + category.image) }}" 
+                         alt="{{ category.name }}"
+                         class="img-fluid category-round-float"
+                         style="width: 120px; height: 120px; object-fit: cover;">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='images/default-solar-category.jpg') }}" 
+                         alt="{{ category.name }}"
+                         class="img-fluid category-round-float"
+                         style="width: 120px; height: 120px; object-fit: cover;">
+                    {% endif %}
+                </div>
+                <div class="category-body text-center" style="z-index:2;">
+                    <a href="{{ url_for('main.products', category_id=category.id) }}" class="btn btn-primary mt-3 w-100">
+                        {{ category.name }}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<style>
+.category-round-float {
+    border-radius: 50%;
+    box-shadow: 0 8px 24px rgba(67,97,238,0.12);
+    margin-top: -40px;
+    margin-bottom: 10px;
+    background: #fff;
+    border: 4px solid #22861ed5;
+    animation: float-category 4s ease-in-out infinite;
+    transition: box-shadow 0.3s;
+}
+@keyframes float-category {
+    0% { transform: translateY(0px);}
+    50% { transform: translateY(-18px);}
+    100% { transform: translateY(0px);}
+}
+.category-card:hover .category-round-float {
+    box-shadow: 0 16px 32px rgba(67,97,238,0.18);
+}
+.categories-section .btn-cannabis {
+    background: linear-gradient(135deg, #1fb9316a, #44b60fc9);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+.categories-section .btn-cannabis:hover, .categories-section .btn-cannabis:focus {
+    background: linear-gradient(135deg, #aaf203, #02e834);
+    color: #fff;
+    transform: translateY(-2px) scale(1.03);
+}
+@media (max-width: 768px) {
+    .categories-section .d-flex {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 2rem !important;
+    }
+    .category-card {
+        width: 100% !important;
+        max-width: 340px !important;
+    }
+}
+</style>
+
+<!-- Featured Products -->
+<section id="featured" class="products-section">
+    <div class="container">
+        <h2 class="section-title text-center">Featured Solar Equements</h2>
+        <div class="row g-4">
+            {% for product in products %}
+            <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                <div class="card product-card h-100 d-flex flex-column shadow-sm border-0" data-id="{{ product.id }}">
+                    <div class="image-container position-relative bg-light rounded-top overflow-hidden" style="min-height:220px; display:flex; align-items:center; justify-content:center;">
+                        {% if product.images %}
+                        <img 
+                            src="{{ url_for('static', filename='uploads/' + product.images[0].image) }}" 
+                            class="product-image w-100 h-100"
+                            alt="{{ product.name }}"
+                            loading="lazy"
+                            style="object-fit:cover; border-radius:12px 12px 0 0; box-shadow:0 2px 16px rgba(67,97,238,0.08); transition:transform 0.5s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;"
+                        >
+                        {% else %}
+                        <img 
+                            src="{{ url_for('static', filename='images/default-solar.jpg') }}" 
+                            class="product-image w-100 h-100"
+                            alt="{{ product.name }}"
+                            loading="lazy"
+                            style="object-fit:cover; border-radius:12px 12px 0 0; box-shadow:0 2px 16px rgba(67,97,238,0.08); transition:transform 0.5s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;"
+                        >
+                        {% endif %}
+                        <div class="quick-view-overlay">
+                            <button class="quick-view-btn">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="card-body flex-grow-1 d-flex flex-column">
+                        <h5 class="product-title mb-2">{{ product.name }}</h5>
+                        <p class="price mb-1">${{ product.price }}</p>
+                        <p class="brand mb-0">Brand: {% if product.brand %}{{ product.brand.name }}{% else %}N/A{% endif %}</p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center">
+                        <a href="{{ url_for('main.product_detail', id=product.id) }}" class="btn btn-primary view-details-btn flex-grow-1 me-2">View Details</a>
+                        <form method="POST" action="{{ url_for('main.add_to_cart', product_id=product.id) }}" class="d-inline">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="btn btn-primary add-to-cart-btn">
+                                <span class="btn-text"><i class="fas fa-cart-plus me-2"></i>Add to Cart</span>
+                                <span class="btn-loading d-none">
+                                    <span class="spinner-border spinner-border-sm me-2"></span>Loading...
+                                </span>
+                                <span class="btn-added d-none">
+                                    <i class="fas fa-check me-2"></i>Added!
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{{ url_for('main.products') }}" class="btn btn-outline-primary btn-lg">View All Solar Products</a>
+        </div>
+    </div>
+</section>
+<style>
+/* Responsive tweaks for featured products */
+.products-section .product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+}
+.products-section .image-container {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background: #f8fafc;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    position: relative;
+}
+.products-section .product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(.4,2,.6,1);
+    border-radius: 12px 12px 0 0;
+    background: #f8fafc;
+}
+.products-section .product-card:hover .product-image {
+    transform: scale(1.04);
+}
+.products-section .quick-view-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(67,97,238,0.08);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.25s;
+    pointer-events: none;
+}
+.products-section .product-card:hover .quick-view-overlay,
+.products-section .product-card:focus-within .quick-view-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+.products-section .quick-view-btn {
+    background: #fff;
+    color: #03081d;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(67,97,238,0.08);
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+}
+.products-section .quick-view-btn:hover,
+.products-section .quick-view-btn:focus {
+    background: #4361ee;
+    color: #fff;
+}
+.products-section .card-body {
+    padding: 1.25rem;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.products-section .product-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    flex: 0 0 auto;
+}
+.products-section .price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #e53e3e;
+    margin-bottom: 0.25rem;
+}
+.products-section .brand {
+    font-size: 0.95rem;
+    color: #718096;
+    margin-bottom: 0;
+}
+.products-section .card-footer {
+    background: #f8fafc;
+    border-top: 1px solid #edf2f7;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.products-section .view-details-btn {
+    min-width: 0;
+    white-space: nowrap;
+}
+.products-section .add-to-cart-btn {
+    min-width: 140px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.products-section .add-to-cart-btn:disabled {
+    cursor: not-allowed;
+}
+.products-section .add-to-cart-btn .btn-text,
+.products-section .add-to-cart-btn .btn-loading,
+.products-section .add-to-cart-btn .btn-added {
+    transition: all 0.3s ease;
+}
+.products-section .add-to-cart-btn.loading .btn-text,
+.products-section .add-to-cart-btn.added .btn-text {
+    display: none;
+}
+.products-section .add-to-cart-btn.loading .btn-loading {
+    display: inline-block !important;
+}
+.products-section .add-to-cart-btn.added {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+.products-section .add-to-cart-btn.added .btn-added {
+    display: inline-block !important;
+}
+.products-section .add-to-cart-btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+@media (max-width: 991.98px) {
+    .products-section .product-title { font-size: 1rem; }
+    .products-section .price { font-size: 1.1rem; }
+    .products-section .brand { font-size: 0.9rem; }
+}
+@media (max-width: 767.98px) {
+    .products-section .image-container { aspect-ratio: 4/3; }
+    .products-section .card-footer { flex-direction: column; gap: 0.5rem; }
+    .products-section .view-details-btn { width: 100%; }
+}
+@media (max-width: 575.98px) {
+    .products-section .image-container { aspect-ratio: 16/10; }
+    .products-section .card-body { padding: 1rem; }
+    .products-section .card-footer { padding: 0.75rem 1rem; }
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Keyboard accessibility for product cards
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.setAttribute('tabindex', '0');
+        card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const id = card.dataset.id;
+                window.location.href = `/product/${id}`;
+            }
+        });
+    });
+
+    // Lazy load images with fade-in
+    document.querySelectorAll('.product-image').forEach(img => {
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 0.5s';
+        img.addEventListener('load', function() {
+            img.style.opacity = '1';
+        });
+    });
+
+    // Quick View button accessibility
+    document.querySelectorAll('.quick-view-btn').forEach(btn => {
+        btn.setAttribute('tabindex', '0');
+        btn.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                btn.click();
+            }
+        });
+    });
+});
+</script>
+
+<!-- Testimonials -->
+<section class="testimonials-section">
+    <div class="container">
+        <h2 class="section-title text-center">What Our Customers Say</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">Solar Shops made switching to solar easy and affordable. The installation was fast and the panels work great!</p>
+                    <div class="testimonial-author">
+                        <div>
+                            <h5 class="mb-0">Sarah Johnson</h5>
+                            <p class="mb-0 text-muted">Verified Customer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">Customer service was excellent and I love my new solar battery backup. Highly recommend Solar Shops!</p>
+                    <div class="testimonial-author">
+                        <div>
+                            <h5 class="mb-0">Michael Chen</h5>
+                            <p class="mb-0 text-muted">Verified Customer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">Great variety of solar products at competitive prices. Delivery was quick and installation support was top-notch.</p>
+                    <div class="testimonial-author">
+                        <div>
+                            <h5 class="mb-0">Emily Rodriguez</h5>
+                            <p class="mb-0 text-muted">Verified Customer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more solar-specific testimonials as needed -->
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter-section">
+    <div class="newsletter-pattern"></div>
+    <div class="container newsletter-content">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="text-body mb-3">Subscribe to Our Solar Newsletter</h2>
+                <p class="text-body mb-4">Get the latest updates on solar technology, new products, and exclusive offers delivered straight to your inbox.</p>
+                <form class="newsletter-form">
+                    <input type="email" class="form-control form-control-lg" placeholder="Your email address" required>
+                    <button type="submit" class="btn btn-light btn-lg px-4">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick View Modal -->
+<div class="modal fade" id="quickViewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="" class="img-fluid rounded modal-product-image" alt="">
+                    </div>
+                    <div class="col-md-6">
+                        <p class="h3 modal-price mb-3"></p>
+                        <p class="modal-brand text-muted mb-4"></p>
+                        <p class="modal-description mb-4"></p>
+                        <div class="d-flex gap-2 align-items-center mb-4">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-star text-warning me-1"></i>
+                                <i class="fas fa-star text-warning me-1"></i>
+                                <i class="fas fa-star text-warning me-1"></i>
+                                <i class="fas fa-star text-warning me-1"></i>
+                                <i class="fas fa-star-half-alt text-warning me-2"></i>
+                                <span>(24 reviews)</span>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 mt-4">
+                            <button class="btn btn-primary btn-lg add-to-cart-modal">
+                                <i class="fas fa-shopping-cart me-2"></i>Add to Cart
+                            </button>
+                            <a href="#" class="btn btn-outline-primary btn-lg view-details-link">View Full Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="addedToCartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-primary text-white">
+            <i class="fas fa-check-circle me-2"></i>
+            <strong class="me-auto">Success!</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body bg-light">
+            Item added to your cart!
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize elements
+        const productCards = document.querySelectorAll('.product-card');
+        const quickViewButtons = document.querySelectorAll('.quick-view-btn');
+        const modal = new bootstrap.Modal(document.getElementById('quickViewModal'));
+        const modalTitle = document.getElementById('productModalLabel');
+        const modalImage = document.querySelector('.modal-product-image');
+        const modalPrice = document.querySelector('.modal-price');
+        const modalBrand = document.querySelector('.modal-brand');
+        const modalDescription = document.querySelector('.modal-description');
+        const viewDetailsLink = document.querySelector('.view-details-link');
+        const cartToast = new bootstrap.Toast(document.getElementById('addedToCartToast'));
+        const addToCartButtons = document.querySelectorAll('.add-to-cart-btn, .add-to-cart-modal');
+        
+        // Add skeleton loading to images
+        const lazyImages = document.querySelectorAll('.product-image');
+        lazyImages.forEach(img => {
+            // Create skeleton element
+            const skeleton = document.createElement('div');
+            skeleton.className = 'skeleton';
+            skeleton.style.width = '100%';
+            skeleton.style.height = '100%';
+            skeleton.style.position = 'absolute';
+            skeleton.style.top = '0';
+            skeleton.style.left = '0';
+            skeleton.style.background = 'linear-gradient(90deg, #f0f2f5 25%, #e6e9ef 50%, #f0f2f5 75%)';
+            skeleton.style.backgroundSize = '200% 100%';
+            skeleton.style.animation = 'loading 1.5s infinite';
+            skeleton.style.borderRadius = '8px';
+            
+            // Insert skeleton before image
+            img.parentElement.appendChild(skeleton);
+            
+            // Load image
+            img.onload = function() {
+                skeleton.style.opacity = '0';
+                setTimeout(() => {
+                    skeleton.remove();
+                    img.style.opacity = '1';
+                }, 300);
+            };
+            
+            // Set initial opacity
+            img.style.opacity = '0';
+            img.style.transition = 'opacity 0.5s ease';
+        });
+        
+        // Quick view button event listeners
+        quickViewButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.product-card');
+                const id = card.dataset.id;
+                const name = card.querySelector('.product-title').textContent;
+                const price = card.querySelector('.price').textContent;
+                const brand = card.querySelector('.brand').textContent;
+                
+                // Set modal content
+                modalTitle.textContent = name;
+                modalPrice.textContent = price;
+                modalBrand.textContent = brand;
+                
+                // Set image with fade effect
+                modalImage.style.opacity = '0';
+                setTimeout(() => {
+                    modalImage.src = card.querySelector('.product-image').src;
+                    modalImage.onload = () => {
+                        modalImage.style.opacity = '1';
+                    };
+                }, 300);
+                
+                // Set description and link
+                modalDescription.textContent = "This premium product features high-quality materials and advanced technology. Designed for durability and performance, it comes with a 1-year warranty and 30-day money-back guarantee.";
+                viewDetailsLink.href = `/product/${id}`;
+                
+                // Show modal with animation
+                modal.show();
+            });
+        });
+        
+        // Add to cart functionality
+        const addToCart = async (id, name, element) => {
+            // Visual feedback
+            const originalHTML = element.innerHTML;
+            element.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Adding...';
+            element.disabled = true;
+            
+            try {
+                // Simulate API request
+                await new Promise(resolve => setTimeout(resolve, 800));
+                
+                // In real app: fetch('/cart/add', { method: 'POST', body: JSON.stringify({ productId: id }) })
+                console.log(`Added product ${id} to cart: ${name}`);
+                
+                // Show success toast
+                cartToast.show();
+                
+                // Update cart count (assuming you have an element with id "cart-count")
+                const cartCount = document.getElementById('cart-count');
+                if (cartCount) {
+                    const currentCount = parseInt(cartCount.textContent) || 0;
+                    cartCount.textContent = currentCount + 1;
+                    
+                    // Animation effect
+                    cartCount.classList.add('animate__tada');
+                    setTimeout(() => {
+                        cartCount.classList.remove('animate__tada');
+                    }, 1000);
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                // Show error toast
+                const errorToast = new bootstrap.Toast(document.getElementById('errorToast'));
+                if (errorToast) errorToast.show();
+            } finally {
+                // Reset button state
+                element.innerHTML = originalHTML;
+                element.disabled = false;
+            }
+        };
+        
+        // Attach event listeners to all add-to-cart buttons
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.product-card');
+                const id = card.dataset.id;
+                const name = card.querySelector('.product-title').textContent;
+                
+                addToCart(id, name, this);
+            });
+        });
+        
+        // Product card click handler
+        productCards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Ignore clicks on buttons and links
+                if (e.target.closest('button') || e.target.closest('a')) return;
+                
+                const id = this.dataset.id;
+                window.location.href = `/product/${id}`;
+            });
+            
+            // Add keyboard accessibility
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    const id = card.dataset.id;
+                    window.location.href = `/product/${id}`;
+                }
+            });
+            
+            // Add focus styles for accessibility
+            card.setAttribute('tabindex', '0');
+        });
+        
+        // Newsletter form submission
+        const newsletterForm = document.querySelector('.newsletter-form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                
+                // Show success message
+                const successToast = new bootstrap.Toast(document.getElementById('newsletterToast'));
+                if (successToast) {
+                    document.getElementById('newsletterToastMessage').textContent = `Thank you for subscribing with ${email}!`;
+                    successToast.show();
+                }
+                
+                // Reset form
+                this.reset();
+            });
+        }
+        
+        // Add newsletter toast to DOM if it doesn't exist
+        if (!document.getElementById('newsletterToast')) {
+            const toastContainer = document.querySelector('.toast-container');
+            const newsletterToast = document.createElement('div');
+            newsletterToast.id = 'newsletterToast';
+            newsletterToast.className = 'toast';
+            newsletterToast.setAttribute('role', 'alert');
+            newsletterToast.setAttribute('aria-live', 'assertive');
+            newsletterToast.setAttribute('aria-atomic', 'true');
+            newsletterToast.innerHTML = `
+                <div class="toast-header bg-success text-white">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <strong class="me-auto">Subscribed!</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body bg-light">
+                    <span id="newsletterToastMessage"></span>
+                </div>
+            `;
+            toastContainer.appendChild(newsletterToast);
+        }
+        
+        // Add error toast to DOM if it doesn't exist
+        if (!document.getElementById('errorToast')) {
+            const toastContainer = document.querySelector('.toast-container');
+            const errorToast = document.createElement('div');
+            errorToast.id = 'errorToast';
+            errorToast.className = 'toast';
+            errorToast.setAttribute('role', 'alert');
+            errorToast.setAttribute('aria-live', 'assertive');
+            errorToast.setAttribute('aria-atomic', 'true');
+            errorToast.innerHTML = `
+                <div class="toast-header bg-danger text-white">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <strong class="me-auto">Error</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body bg-light">
+                    Failed to add item to cart. Please try again.
+                </div>
+            `;
+            toastContainer.appendChild(errorToast);
+        }
+    });
+    
+    // Loading animation for skeleton
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+<script>
+    function addToCart(productId) {
+        // Implement add to cart functionality
+        alert('Product added to cart!');
+    }
+
+    function updateMainImage(src) {
+        document.getElementById('main-product-image').src = src;
+    }
+</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/home.js') }}" defer></script>
+{% endblock %}

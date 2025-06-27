@@ -1,0 +1,187 @@
+{% extends "admin/base.html" %}
+
+{% block title %}View Order #{{ order.id }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2>Order #{{ order.id }}</h2>
+                <div>
+                    <span class="badge bg-{{
+                        'success' if order.status == 'completed'
+                        else 'warning' if order.status == 'pending'
+                        else 'info' }}">
+                        {{ order.status }}
+                    </span>
+                    <a href="{{ url_for('main.update_order_status', id=order.id) }}" class="btn btn-primary ms-2">Update Status</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Customer Information</h4>
+                        {% if order.checkout %}
+                            <p><strong>Customer Name:</strong> {{ order.checkout[0].shipping_address.split('\n')[0] if order.checkout[0].shipping_address else 'N/A' }}</p>
+                            <p><strong>Email:</strong> {{ order.checkout[0].contact_email }}</p>
+                            <p><strong>Phone:</strong> {{ order.checkout[0].contact_phone }}</p>
+                        {% else %}
+                            <p>No customer information available.</p>
+                        {% endif %}
+                        <p><strong>Order Date:</strong> {{ order.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Payment Information</h4>
+                        <p><strong>Payment Method:</strong> {{ order.payment_method|title }}</p>
+                        {% if order.payment_method == 'credit_card' and order.payments %}
+                            <p><strong>Card Last 4:</strong> **** **** **** {{ order.payments[0].card_last4 }}</p>
+                            <p><strong>Cardholder:</strong> {{ order.payments[0].cardholder_name }}</p>
+                        {% endif %}
+                        <p><strong>Payment Status:</strong> {{ order.payments[0].status|title if order.payments else 'N/A' }}</p>
+                        <p><strong>Amount:</strong> ${{ "%.2f"|format(order.total) }}</p>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h4>Shipping Address</h4>
+                        {% if order.checkout %}
+                            <address>
+                                {{ order.checkout[0].shipping_address|replace('\n', '<br>')|safe if order.checkout[0].shipping_address }}
+                            </address>
+                        {% else %}
+                            <p>No shipping information available.</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Billing Address</h4>
+                        {% if order.checkout %}
+                            <address>
+                                {{ order.checkout[0].billing_address|replace('\n', '<br>')|safe if order.checkout[0].billing_address }}
+                            </address>
+                        {% else %}
+                            <p>No billing information available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if order.checkout and order.checkout[0].order_notes %}
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <h4>Order Notes</h4>
+                        <p>{{ order.checkout[0].order_notes }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <h4>Order Items</h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Tracking Code</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.order_items %}
+                                <tr>
+                                    <td>{{ item.product.name }}</td>
+                                    <td>${{ "%.2f"|format(item.price) }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td><span class="badge bg-secondary">{{ item.tracking_code }}</span></td>
+                                    <td>${{ "%.2f"|format(item.price * item.quantity) }}</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="4" class="text-end"><strong>Total:</strong></td>
+                                    <td><strong>${{ "%.2f"|format(order.total) }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <h4>Order Details</h4>
+                        <table class="table">
+                            <tr>
+                                <th>Order Status:</th>
+                                <td>
+                                    <span class="badge bg-{{ 'success' if order.status == 'completed' else 'warning' if order.status == 'pending' else 'info' }}">
+                                        {{ order.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr><th>Order Date:</th><td>{{ order.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td></tr>
+                            <tr><th>Payment Method:</th><td>{{ order.payments[0].method|title if order.payments else 'N/A' }}</td></tr>
+                            <tr><th>Payment Status:</th><td>{{ order.payments[0].status|title if order.payments else 'N/A' }}</td></tr>
+                            {% if order.checkout %}
+                                <tr><th>Customer Name:</th><td>{{ order.checkout[0].shipping_address.split('\n')[0] if order.checkout[0].shipping_address else 'N/A' }}</td></tr>
+                                <tr><th>Email:</th><td>{{ order.checkout[0].contact_email }}</td></tr>
+                                <tr><th>Phone:</th><td>{{ order.checkout[0].contact_phone }}</td></tr>
+                                <tr>
+                                    <th>Shipping Address:</th>
+                                    <td>{{ order.checkout[0].shipping_address|replace('\n', '<br>')|safe if order.checkout[0].shipping_address }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Billing Address:</th>
+                                    <td>{{ order.checkout[0].billing_address|replace('\n', '<br>')|safe if order.checkout[0].billing_address }}</td>
+                                </tr>
+                                {% if order.checkout[0].order_notes %}
+                                <tr>
+                                    <th>Order Notes:</th>
+                                    <td>{{ order.checkout[0].order_notes }}</td>
+                                </tr>
+                                {% endif %}
+                            {% else %}
+                                <tr><td colspan="2">No checkout information available.</td></tr>
+                            {% endif %}
+                            <tr>
+                                <th>Total Amount:</th>
+                                <td>${{ "%.2f"|format(order.total) }}</td>
+                            </tr>
+                        </table>
+
+                        {% if order.special_notes %}
+                        <div class="alert alert-info">
+                            <h5>Special Notes:</h5>
+                            <p>{{ order.special_notes }}</p>
+                        </div>
+                        {% endif %}
+
+                        <!-- Order Actions -->
+                        <div class="mt-4">
+                            {% if order.status == 'pending' %}
+                            <form method="POST" action="{{ url_for('main.process_order', order_id=order.id) }}" class="d-inline">
+                                <input type="hidden" name="action" value="process">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-box"></i> Process Order
+                                </button>
+                            </form>
+                            {% elif order.status == 'processing' %}
+                            <form method="POST" action="{{ url_for('main.process_order', order_id=order.id) }}" class="d-inline">
+                                <input type="hidden" name="action" value="complete">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-check"></i> Mark as Completed
+                                </button>
+                            </form>
+                            {% elif order.status == 'completed' %}
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle"></i> Order has been completed
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Shop by Category</h1>
+    <div class="row g-4">
+        {% for category in categories %}
+        <div class="col-md-4">
+            <div class="category-card">
+                <div class="category-image">
+                    {% if category.image %}
+                    <img src="{{ url_for('static', filename='uploads/' + category.image) }}" 
+                         alt="{{ category.name }}"
+                         class="img-fluid w-100"
+                         style="height: 250px; object-fit: cover; border-radius: 10px 10px 0 0;">
+                    {% else %}
+                    <img src="{{ url_for('static', filename='images/default-category.jpg') }}" 
+                         alt="{{ category.name }}"
+                         class="img-fluid w-100"
+                         style="height: 250px; object-fit: cover; border-radius: 10px 10px 0 0;">
+                    {% endif %}
+                    <div class="category-overlay">
+                        <h3 class="category-title">{{ category.name }}</h3>
+                        <p class="category-count">Products</p>
+                    </div>
+                </div>
+                <div class="category-body">
+                    <a href="{{ url_for('main.products', category_id=category.id) }}" class="btn btn-primary w-100">Shop Now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.category-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.category-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.category-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: white;
+}
+
+.category-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.category-count {
+    margin: 5px 0 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+}
+
+.category-body {
+    padding: 1rem;
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.category-card:hover img {
+    transform: scale(1.1);
+}
+
+.category-image img {
+    transition: transform 0.5s ease;
+}
+</style>
+{% endblock %}

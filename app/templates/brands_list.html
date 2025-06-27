@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Brands{% endblock %}
+
+{% block content %}
+<!-- User Navigation -->
+<div class="container mx-auto px-4 py-8 font-sans">
+    <div class="mb-8">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('main.home') }}">Home</a></li>
+                <li class="breadcrumb-item active">Brands</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-4 md:mb-0">Our Brands</h1>
+        <div class="relative w-full md:w-1/3">
+            <input
+                type="text"
+                id="brandSearchInput"
+                placeholder="Search brands..."
+                class="form-control"
+            >
+        </div>
+    </div>
+
+    <div class="row" id="brandCardsContainer">
+        {% for brand in brands %}
+        <div class="col-md-4 mb-4 brand-card">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title h4 mb-3">{{ brand.name }}</h5>
+                    <p class="text-muted mb-4">{{ brand.products|length }} products</p>
+                    <div class="d-flex flex-column gap-3">
+                        <a href="{{ url_for('main.products', brand_id=brand.id) }}"
+                           class="btn btn-primary">
+                            <i class="fas fa-box-open me-2"></i>View Products
+                        </a>
+                        {% if brand.products|length > 0 %}
+                        <button class="btn btn-outline-secondary generate-slogan-btn"
+                                data-brand-name="{{ brand.name }}"
+                                data-brand-id="{{ brand.id }}">
+                            <i class="fas fa-magic me-2"></i>Generate Slogan
+                        </button>
+                        <div id="slogan-{{ brand.id }}" class="generated-slogan fst-italic text-muted small mt-2"></div>
+                        
+                        <button class="btn btn-outline-info generate-description-btn"
+                                data-brand-name="{{ brand.name }}"
+                                data-brand-id="{{ brand.id }}">
+                            <i class="fas fa-feather-alt me-2"></i>Generate Description
+                        </button>
+                        <div id="description-{{ brand.id }}" class="generated-description text-muted small mt-2"></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Add this at the end of the content block -->
+{% if not brands %}
+<div class="text-center py-5">
+    <i class="fas fa-store text-muted fa-3x mb-3"></i>
+    <h3>No brands available</h3>
+    <p class="text-muted">Check back later for new brands</p>
+</div>
+{% endif %}
+
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/brands.js') }}"></script>
+{% endblock %}
+</div>
+
+<!-- Link to your custom JavaScript file -->
+<script src="{{ url_for('static', filename='js/brands.js') }}"></script>
+{% endblock %}

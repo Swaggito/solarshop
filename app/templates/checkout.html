@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/checkout.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="checkout-container">
+    <div class="header">
+        <h1>Secure Checkout</h1>
+        <p>Complete your purchase with confidence - your information is always protected</p>
+    </div>
+
+    <div class="checkout-grid">
+        <!-- Checkout Form Section -->
+        <div class="form-section">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-user"></i> Contact & Shipping Information
+                </div>
+                <div class="card-body">
+                    <form id="checkout-form" method="POST" action="{{ url_for('main.checkout') }}">
+                        {{ form.hidden_tag() }}
+                        <h3 class="section-title">Contact Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                {{ form.full_name.label(class="form-label") }}
+                                {{ form.full_name(class="form-control", placeholder="John Doe", required=true) }}
+                                {% if form.full_name.errors %}
+                                    <div class="error">{{ form.full_name.errors[0] }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.phone.label(class="form-label") }}
+                                {{ form.phone(class="form-control", placeholder="(123) 456-7890", required=true) }}
+                                {% if form.phone.errors %}
+                                    <div class="error">{{ form.phone.errors[0] }}</div>
+                            {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.email.label(class="form-label") }}
+                            {{ form.email(class="form-control", placeholder="john@example.com", required=True) }}
+                            {% if form.email.errors %}
+                                <div class="error">{{ form.email.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+
+                        <h3 class="section-title">Shipping Address</h3>
+                        <div class="form-group">
+                            {{ form.shipping_address.label(class="form-label") }}
+                            {{ form.shipping_address(class="form-control", placeholder="123 Main Street", required=True) }}
+                            {% if form.shipping_address.errors %}
+                                <div class="error">{{ form.shipping_address.errors[0] }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                {{ form.city.label(class="form-label") }}
+                                {{ form.city(class="form-control", placeholder="New York", required=True) }}
+                                {% if form.city.errors %}
+                                    <div class="error">{{ form.city.errors[0] }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.state.label(class="form-label") }}
+                                {{ form.state(class="form-control",  required=True) }}
+                                {% if form.state.errors %}
+                                    <div class="error">{{ form.state.errors[0] }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                {{ form.postal_code.label(class="form-label") }}
+                                {{ form.postal_code(class="form-control", placeholder="10001", required=True) }}
+                                {% if form.postal_code.errors %}
+                                    <div class="error">{{ form.postal_code.errors[0] }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.country.label(class="form-label") }}
+                                {{ form.country(class="form-control", required=True) }}
+                                {% if form.country.errors %}
+                                    <div class="error">{{ form.country.errors[0] }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <h3 class="section-title">Payment Method</h3>
+                        <div class="payment-method">
+                            {{ form.payment_method(class="d-none") }}
+                            <div class="payment-option active" data-method="credit_card">
+                                <i class="fas fa-credit-card"></i>
+                                <div class="method-name">Credit Card</div>
+                            </div>
+                            <div class="payment-option" data-method="Mtn mobile money">
+                                <i class="fab fa-Mtn mobile money"></i>
+                                <div class="method-name">Mtn mobile money</div>
+                            </div>
+                            <div class="payment-option" data-method="bank_transfer">
+                                <i class="fas fa-university"></i>
+                                <div class="method-name">Bank Transfer</div>
+                            </div>
+                            
+                            <div class="payment-option" data-method="crypto">
+                                <i class="fab fa-crypto"></i>
+                                <div class="method-name">Cryptocurrency</div>
+                            </div>
+                            
+                
+                        <div class="payment-option" data-method="Orange mobile money">
+                                <i class="fab fa-Orange mobile money"></i>
+                                <div class="method-name">Orange mobile money</div>
+                            </div>
+
+                        <!-- Payment Forms -->
+                        <div id="credit-card-form" class="payment-form">
+                            <div class="credit-card-fields active" id="credit-card-section">
+                                <div class="card-icons">
+                                    <div class="card-icon"><i class="fab fa-cc-visa"></i></div>
+                                    <div class="card-icon"><i class="fab fa-cc-mastercard"></i></div>
+                                    <div class="card-icon"><i class="fab fa-cc-amex"></i></div>
+                                    <div class="card-icon"><i class="fab fa-cc-discover"></i></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    {{ form.card_number.label(class="form-label") }}
+                                    {{ form.card_number(class="form-control", placeholder="1234 5678 9012 3456", maxlength="19", required=True) }}
+                                    {% if form.card_number.errors %}
+                                        <div class="error">{{ form.card_number.errors[0] }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="credit-card-row">
+                                    <div class="form-group">
+                                        {{ form.cardholder_name.label(class="form-label") }}
+                                        {{ form.cardholder_name(class="form-control", placeholder="John Doe", required=True) }}
+                                        {% if form.cardholder_name.errors %}
+                                            <div class="error">{{ form.cardholder_name.errors[0] }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <div class="expiry-cvv">
+                                        <div class="form-group">
+                                            {{ form.expiry_date.label(class="form-label") }}
+                                            {{ form.expiry_date(class="form-control", placeholder="MM/YY", required=True) }}
+                                            {% if form.expiry_date.errors %}
+                                                <div class="error">{{ form.expiry_date.errors[0] }}</div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ form.cvv.label(class="form-label") }}
+                                            {{ form.cvv(class="form-control", placeholder="123", maxlength="4", required=True) }}
+                                            {% if form.cvv.errors %}
+                                                <div class="error">{{ form.cvv.errors[0] }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="paypal-form" class="payment-form d-none">
+                            <div class="alert alert-info">
+                                You will be redirected to PayPal to complete your payment.
+                            </div>
+                        </div>
+
+                        <div id="bank-transfer-form" class="payment-form d-none">
+                            <div class="alert alert-info">
+                                Bank account details will be provided after order confirmation.
+                            </div>
+                        </div>
+
+                         <div id="cashapp-form" class="payment-form d-none">
+                            <div class="alert alert-info">
+                                You will be redirected to cashapp to complete your payment.
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.order_notes.label(class="form-label") }}
+                            {{ form.order_notes(class="form-control", rows="3", placeholder="Special instructions, delivery notes, etc.") }}
+                        </div>
+                        
+                        <div class="security-info">
+                            <i class="fas fa-shield-alt"></i>
+                            <div class="security-text">
+                                Your payment information is encrypted and securely processed. We do not store your credit card details.
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary" id="submit-button">
+                            <span id="submit-text"><i class="fas fa-lock"></i> Place Order & Pay</span>
+                            <span id="loading-spinner" class="d-none"><i class="fas fa-spinner fa-spin"></i> Processing...</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary Section -->
+        <div class="summary-section">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-shopping-cart"></i> Order Summary
+                </div>
+                <div class="card-body">
+                    <h3 class="section-title">Your Items</h3>
+                    
+                    {% for item in cart.items %}
+                    <div class="order-item">
+                        <div class="item-info">
+                            <div class="item-image">
+                                {% if item.product.images %}
+                                <img src="{{ url_for('static', filename='uploads/' + item.product.images[0].image) }}" 
+                                     alt="{{ item.product.name }}" style="width: 60px; height: 60px; object-fit: cover;">
+                                {% else %}
+                                <i class="fas fa-box"></i>
+                                {% endif %}
+                            </div>
+                            <div class="item-details">
+                                <div class="item-name">{{ item.product.name }}</div>
+                                <div>Qty: {{ item.quantity }}</div>
+                            </div>
+                        </div>
+                        <div class="item-price">${{ "%.2f"|format(item.get_subtotal()) }}</div>
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="promo-section">
+                        <div class="form-group">
+                            <label class="form-label">Promo Code</label>
+                            <div class="promo-input">
+                                <input type="text" class="form-control" placeholder="Enter code">
+                                <button class="apply-btn">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-total">
+                        <div>Total:</div>
+                        <div>${{ "%.2f"|format(cart.get_total()) }}</div>
+                    </div>
+                    
+                    <div class="security-info">
+                        <i class="fas fa-truck"></i>
+                        <div class="security-text">
+                            Free shipping included. Estimated delivery: 2-3 business days.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{{ url_for('static', filename='js/checkout.js') }}"></script>
+<script>
+    document.getElementById('checkout-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById('submit-button');
+        const submitText = document.getElementById('submit-text');
+        const spinner = document.getElementById('loading-spinner');
+        submitBtn.disabled = true;
+        submitText.classList.add('d-none');
+        spinner.classList.remove('d-none');
+
+        try {
+            const formData = new FormData(this);
+            const response = await fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': '{{ form.csrf_token._value() }}'  // Include CSRF token
+                }
+            });
+
+            // No need to parse JSON, just check if the redirect happened
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'There was a problem placing your order.'
+                });
+            }
+        } catch (err) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An unexpected error occurred. Please try again.'
+            });
+        } finally {
+            submitBtn.disabled = false;
+            submitText.classList.remove('d-none');
+            spinner.classList.add('d-none');
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,230 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4">Site Settings</h1>
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="row mb-4">
+            <div class="col-12">
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    {% endwith %}
+    
+    {% if not settings %}
+    <div class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        No settings found. Please configure your site settings.
+    </div>
+    {% endif %}
+    
+    <div class="row">
+        <!-- General Settings -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h5 mb-0">General Settings</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('main.settings') }}">
+                        {{ general_form.hidden_tag() }}
+                        <input type="hidden" name="form_type" value="general_settings">
+                        
+                        <div class="mb-3">
+                            {{ general_form.site_name.label(class="form-label") }}
+                            {{ general_form.site_name(class="form-control") }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ general_form.description.label(class="form-label") }}
+                            {{ general_form.description(class="form-control", rows="3") }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ general_form.site_url.label(class="form-label") }}
+                            {{ general_form.site_url(class="form-control") }}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Save General Settings
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Settings -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-info text-white">
+                    <h2 class="h5 mb-0">Contact Information</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('main.settings') }}">
+                        {{ contact_form.hidden_tag() }}
+                        <input type="hidden" name="form_type" value="contact_settings">
+                        <div class="mb-3">
+                            {{ contact_form.contact_email.label(class="form-label") }}
+                            {{ contact_form.contact_email(class="form-control") }}
+                        </div>
+                        <div class="mb-3">
+                            {{ contact_form.sales_email.label(class="form-label") }}
+                            {{ contact_form.sales_email(class="form-control") }}
+                        </div>
+                        <div class="mb-3">
+                            {{ contact_form.support_email.label(class="form-label") }}
+                            {{ contact_form.support_email(class="form-control") }}
+                        </div>
+                        <div class="mb-3">
+                            {{ contact_form.phone_number.label(class="form-label") }}
+                            {{ contact_form.phone_number(class="form-control") }}
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-info text-white">
+                                <i class="fas fa-save me-2"></i>Save Contact Info
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- SMTP Settings -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-warning text-dark">
+                    <h2 class="h5 mb-0">Email (SMTP) Settings</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('main.settings') }}">
+                        {{ smtp_form.hidden_tag() }}
+                        <input type="hidden" name="form_type" value="smtp_settings">
+                        <div class="mb-3">
+                            {{ smtp_form.smtp_server.label(class="form-label") }}
+                            {{ smtp_form.smtp_server(class="form-control") }}
+                        </div>
+                        <div class="mb-3">
+                            {{ smtp_form.smtp_port.label(class="form-label") }}
+                            {{ smtp_form.smtp_port(class="form-control") }}
+                        </div>
+                        <div class="mb-3">
+                            {{ smtp_form.smtp_username.label(class="form-label") }}
+                            {{ smtp_form.smtp_username(class="form-control") }}
+                        </div>
+                        <div class="mb-3">
+                            {{ smtp_form.smtp_password.label(class="form-label") }}
+                            {{ smtp_form.smtp_password(class="form-control") }}
+                        </div>
+                        <div class="mb-3 form-check">
+                            {{ smtp_form.smtp_use_tls(class="form-check-input") }}
+                            {{ smtp_form.smtp_use_tls.label(class="form-check-label") }}
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save me-2"></i>Save SMTP Settings
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Settings -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-success text-white">
+                    <h2 class="h5 mb-0">Business Address</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('main.settings') }}">
+                        {{ address_form.hidden_tag() }}
+                        <input type="hidden" name="form_type" value="address_settings">
+                        <div class="mb-3">
+                            {{ address_form.address_line1.label(class="form-label") }}
+                            {{ address_form.address_line1(class="form-control") }}
+                        </div>
+                        <div class="mb-3">
+                            {{ address_form.address_line2.label(class="form-label") }}
+                            {{ address_form.address_line2(class="form-control") }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ address_form.city.label(class="form-label") }}
+                                {{ address_form.city(class="form-control") }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ address_form.state.label(class="form-label") }}
+                                {{ address_form.state(class="form-control") }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ address_form.postal_code.label(class="form-label") }}
+                                {{ address_form.postal_code(class="form-control") }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ address_form.country.label(class="form-label") }}
+                                {{ address_form.country(class="form-control") }}
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save me-2"></i>Save Address
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current Configuration Section -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h2 class="h5 mb-0">Current Configuration</h2>
+                </div>
+                <div class="card-body">
+                    {% if settings %}
+                    <!-- Show current settings if they exist -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="mb-3">General Information</h5>
+                            <table class="table table-sm table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <th width="30%">Site Name:</th>
+                                        <td>{{ settings.site_name }}</td>
+                                    </tr>
+                                    <!-- Other fields -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Other sections -->
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        No configuration settings have been saved yet.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

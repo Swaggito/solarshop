@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                    <h2 class="mt-3 mb-4">Order Successfully Placed!</h2>
+                    <p class="lead">Order #{{ order.id }}</p>
+                    <div class="alert alert-success">
+                        Your order has been received and is being processed by our team.
+                    </div>
+                    <hr>
+                    <div class="order-details mt-4 text-start">
+                        <h4>Order Summary</h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.order_items %}
+                                <tr>
+                                    <td>{{ item.product.name }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>${{ "%.2f"|format(item.price) }}</td>
+                                    <td>${{ "%.2f"|format(item.price * item.quantity) }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                                    <td><strong>${{ "%.2f"|format(order.total) }}</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <h3>Shipping Information</h3>
+                    {% if order.checkout %}
+                        <p>{{ order.checkout[0].shipping_address|replace('\n', '<br>')|safe }}</p>
+                    {% else %}
+                        <p>No shipping information available.</p>
+                    {% endif %}
+                    <div class="mt-4">
+                        <a href="{{ url_for('main.products') }}" class="btn btn-primary">
+                            Continue Shopping
+                        </a>
+                        <a href="{{ url_for('main.user_orders') }}" class="btn btn-outline-primary">
+                            View All Orders
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}

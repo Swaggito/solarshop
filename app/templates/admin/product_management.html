@@ -1,0 +1,104 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Product Management{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Product Management</h1>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Add New Product
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            {{ form.hidden_tag() }}
+                            <div class="mb-3">
+                                {{ form.name.label(class="form-label") }}
+                                {{ form.name(class="form-control") }}
+                                {% if form.name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {% for error in form.name.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.description.label(class="form-label") }}
+                                {{ form.description(class="form-control") }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.price.label(class="form-label") }}
+                                {{ form.price(class="form-control") }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.brand.label(class="form-label") }}
+                                {{ form.brand(class="form-select") }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.category.label(class="form-label") }}
+                                {{ form.category(class="form-select") }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.image1.label(class="form-label") }}
+                                {{ form.image1(class="form-control") }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.image2.label(class="form-label") }}
+                                {{ form.image2(class="form-control") }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.image3.label(class="form-label") }}
+                                {{ form.image3(class="form-control") }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.image4.label(class="form-label") }}
+                                {{ form.image4(class="form-control") }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Product</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        Existing Products
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Brand</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                <tr>
+                                    <td>{{ product.id }}</td>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.brand.name }}</td>
+                                    <td>${{ product.price }}</td>
+                                    <td>
+                                        <a href="{{ url_for('main.edit_product', id=product.id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                        <a href="{{ url_for('main.delete_product', id=product.id) }}" class="btn btn-sm btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

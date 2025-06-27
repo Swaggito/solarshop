@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Shopping Cart</h1>
+        {% if cart.items %}
+            <table class="table">
+                <!-- <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead> -->
+                <tbody>
+                    {% for item in cart.items %}
+                    <tr class="cart-item" data-item-id="{{ item.id }}">
+                        <td>
+                            {% if item.product %}
+                                {% if item.product.images and item.product.images|length > 0 %}
+                                    <img src="{{ url_for('static', filename='uploads/' + item.product.images[0].image) }}" 
+                                         class="img-thumbnail" style="max-width: 100px;" alt="{{ item.product.name }}">
+                                {% else %}
+                                    <img src="{{ url_for('static', filename='images/default.jpg') }}" 
+                                         class="img-thumbnail" style="max-width: 100px;" alt="No Image">
+                                {% endif %}
+                                {{ item.product.name }}
+                            {% else %}
+                                <span class="text-danger">[Product unavailable]</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.product %}
+                                ${{ "%.2f"|format(item.product.price) }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form method="POST" action="{{ url_for('main.update_cart', item_id=item.id) }}" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <div class="input-group" style="width: 150px;">
+                                    <button class="btn btn-outline-secondary minus-btn" type="button" data-item-id="{{ item.id }}">-</button>
+                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control quantity-input text-center" 
+                                           style="width: 60px;" data-item-id="{{ item.id }}">
+                                    <button class="btn btn-outline-secondary plus-btn" type="button" data-item-id="{{ item.id }}">+</button>
+                                </div>
+                            </form>
+                        </td>
+                        <td data-item-id="{{ item.id }}" class="subtotal">
+                            {% if item.product %}
+                                ${{ "%.2f"|format(item.get_subtotal()) }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-sm remove-item" data-item-id="{{ item.id }}">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                        <td id="cartTotal">${{ "%.2f"|format(cart.get_total()) }}</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <div class="text-end">
+                <a href="{{ url_for('main.products') }}" class="btn btn-secondary">Continue Shopping</a>
+                <a href="{{ url_for('main.checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
+            </div>
+        {% else %}
+            <p>Your cart is empty. <a href="{{ url_for('main.products') }}">Continue shopping</a></p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to update cart item quantity
+    function updateCartItem(itemId, quantity) {
+        fetch(`/cart/update/${itemId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': document.querySelector('input[name="csrf_token"]').value
+            },
+            body: `quantity=${quantity}`
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // Parse JSON response
+            } else {
+                throw new Error('Failed to update cart. Please try again.');
+            }
+        })
+        .then(data => {
+            // Only update UI, do not display raw data fields
+            if (data.success) {
+                const subtotalElement = document.querySelector(`.subtotal[data-item-id="${itemId}"]`);
+                const totalElement = document.querySelector('#cartTotal');
+
+                if (subtotalElement) {
+                    subtotalElement.textContent = `$${data.subtotal}`;
+                }
+                if (totalElement) {
+                    totalElement.textContent = `$${data.cart_total}`;
+                }
+                // Optionally show a generic toast, but not data.message
+                // showToast('Cart updated!', 'success');
+            } else {
+                // Optionally show a generic error, but not data.message
+                // showToast('Failed to update cart.', 'danger');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // showToast('An error occurred. Please try again.', 'danger');
+        });
+    }
+
+    // Plus button click event
+    document.querySelectorAll('.plus-btn').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const itemId = this.dataset.itemId;
+            const inputField = document.querySelector(`.quantity-input[data-item-id="${itemId}"]`);
+            let quantity = parseInt(inputField.value);
+            quantity = isNaN(quantity) ? 1 : quantity + 1;
+            inputField.value = quantity;
+            updateCartItem(itemId, quantity);
+        });
+    });
+
+    // Minus button click event
+    document.querySelectorAll('.minus-btn').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const itemId = this.dataset.itemId;
+            const inputField = document.querySelector(`.quantity-input[data-item-id="${itemId}"]`);
+            let quantity = parseInt(inputField.value);
+            quantity = isNaN(quantity) ? 1 : quantity - 1;
+            if (quantity < 1) quantity = 1; // Ensure quantity doesn't go below 1
+            inputField.value = quantity;
+            updateCartItem(itemId, quantity);
+        });
+    });
+
+    // Quantity input change event
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('change', function() {
+            const itemId = this.dataset.itemId;
+            let quantity = parseInt(this.value);
+            if (isNaN(quantity) || quantity < 1) {
+                quantity = 1;
+                this.value = quantity;
+            }
+            updateCartItem(itemId, quantity);
+        });
+    });
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    
+    document.querySelectorAll('.remove-item').forEach(button => {
+        button.addEventListener('click', async function() {
+            const itemId = this.dataset.itemId;
+            const row = document.querySelector(`.cart-item[data-item-id="${itemId}"]`);
+            
+            try {
+                const response = await fetch(`/cart/remove/${itemId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-Token': csrfToken
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    // Remove the row with animation
+                    row.style.backgroundColor = '#ffe6e6';
+                    setTimeout(() => {
+                        row.style.transition = 'all 0.5s ease';
+                        row.style.opacity = '0';
+                        row.style.transform = 'translateX(20px)';
+                    }, 100);
+                    setTimeout(() => {
+                        row.remove();
+                        // Update cart total
+                        document.querySelector('#cartTotal').textContent = `$${data.cart_total}`;
+                        // Update cart count in navbar
+                        const cartBadge = document.querySelector('.cart-count');
+                        if (cartBadge) {
+                            cartBadge.textContent = data.cart_count;
+                        }
+                    }, 500);
+                    
+                    // Show generic toast only, not data.message
+                    showToast('Item removed from cart!', 'success');
+                    
+                    // If cart is empty, refresh the page
+                    if (data.cart_count === 0) {
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+                    }
+                } else {
+                    showToast('Failed to remove item.', 'danger');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Failed to remove item.', 'danger');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

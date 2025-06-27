@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3>Profile Menu</h3>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="{{ url_for('main.user_profile') }}" class="list-group-item list-group-item-action">Dashboard</a>
+                <a href="{{ url_for('main.user_orders') }}" class="list-group-item list-group-item-action active">My Orders</a>
+                <a href="{{ url_for('main.user_settings') }}" class="list-group-item list-group-item-action">Settings</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header">
+                <h2>My Orders</h2>
+            </div>
+            <div class="card-body">
+                {% if orders %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                    <th>Items</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.id }}</td>
+                                    <td>{{ order.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ 
+                                            'success' if order.status == 'completed' 
+                                            else 'warning' if order.status == 'pending' 
+                                            else 'info' }}">
+                                            {{ order.status }}
+                                        </span>
+                                    </td>
+                                    <td>${{ "%.2f"|format(order.total) }}</td>
+                                    <td>{{ order.order_items|length }} items</td>
+                                    <td>
+                                        <a href="{{ url_for('main.view_order', id=order.id) }}" 
+                                           class="btn btn-sm btn-info">Details</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p>You haven't placed any orders yet.</p>
+                    <a href="{{ url_for('main.products') }}" class="btn btn-primary">Start Shopping</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

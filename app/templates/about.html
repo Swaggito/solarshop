@@ -1,0 +1,395 @@
+{% extends "base.html" %}
+
+{% block title %}About Us{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="about-hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Our Story</h1>
+            <p>Solar Shops began our journey in 2006, dedicated to making clean, renewable energy accessible to everyone.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Mission Statement Section -->
+<section class="mission-section py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h2 class="display-4 mb-4">Our Mission</h2>
+        <div class="mission-statement mb-5 p-4 rounded bg-white shadow-sm">
+          <p class="lead font-italic">"To empower communities with sustainable solar solutions, driving innovation and a cleaner future for generations to come."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Mission Elements -->
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="mission-card h-100 p-4 rounded bg-white shadow-sm">
+          <div class="icon-wrapper mb-3 text-primary">
+            <i class="fas fa-solar-panel fa-2x"></i>
+          </div>
+          <h3>Solar Innovation</h3>
+          <ul class="mission-list">
+            <li>Cutting-edge solar panel technology</li>
+            <li>Custom energy solutions</li>
+            <li>Smart home integration</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="mission-card h-100 p-4 rounded bg-white shadow-sm">
+          <div class="icon-wrapper mb-3 text-primary">
+            <i class="fas fa-award fa-2x"></i>
+          </div>
+          <h3>Quality Commitment</h3>
+          <ul class="mission-list">
+            <li>Premium, certified products</li>
+            <li>Expert installation teams</li>
+            <li>Long-term warranties</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="mission-card h-100 p-4 rounded bg-white shadow-sm">
+          <div class="icon-wrapper mb-3 text-primary">
+            <i class="fas fa-industry fa-2x"></i>
+          </div>
+          <h3>Industry Leadership</h3>
+          <ul class="mission-list">
+            <li>State-of-the-art facilities</li>
+            <li>Renewable energy advocacy</li>
+            <li>Solar education programs</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="mission-card h-100 p-4 rounded bg-white shadow-sm">
+          <div class="icon-wrapper mb-3 text-primary">
+            <i class="fas fa-hands-helping fa-2x"></i>
+          </div>
+          <h3>Community Focus</h3>
+          <ul class="mission-list">
+            <li>Energy access initiatives</li>
+            <li>Loyalty and referral programs</li>
+            <li>Expanding green jobs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Philosophy Section -->
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <blockquote class="blockquote philosophy-quote">
+          <p class="mb-0">"No matter how much we grow, we remain dedicated to powering a sustainable world."</p>
+          <footer class="blockquote-footer mt-2">Solar Shops Philosophy</footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Solar Shops Values Section -->
+<section class="values-section py-5" style="background-color: hsl(240, 33%, 95%);">
+  <div class="container">
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-8 text-center">
+        <h2 class="display-4 mb-3">Our Core Values</h2>
+        <p class="lead">The foundation of everything we build at Solar Shops</p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Value 1: Sustainability -->
+      <div class="col-md-6 col-lg-3">
+        <div class="value-card h-100 p-4 text-center bg-white rounded shadow-sm">
+          <div class="value-icon mb-4">
+            <i class="fas fa-leaf fa-3x" style="color: #38a169;"></i>
+          </div>
+          <h3 class="h4 mb-3">Sustainability</h3>
+          <ul class="text-start ps-3">
+            <li>Eco-friendly materials</li>
+            <li>Reducing carbon footprint</li>
+            <li>Promoting renewable energy</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Value 2: Quality Assurance -->
+      <div class="col-md-6 col-lg-3">
+        <div class="value-card h-100 p-4 text-center bg-white rounded shadow-sm">
+          <div class="value-icon mb-4">
+            <i class="fas fa-certificate fa-3x" style="color: #4361ee;"></i>
+          </div>
+          <h3 class="h4 mb-3">Quality Assurance</h3>
+          <ul class="text-start ps-3">
+            <li>Certified solar products</li>
+            <li>Expert installation</li>
+            <li>Performance guarantees</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Value 3: Innovation -->
+      <div class="col-md-6 col-lg-3">
+        <div class="value-card h-100 p-4 text-center bg-white rounded shadow-sm">
+          <div class="value-icon mb-4">
+            <i class="fas fa-lightbulb fa-3x" style="color: #d69e2e;"></i>
+          </div>
+          <h3 class="h4 mb-3">Innovation</h3>
+          <ul class="text-start ps-3">
+            <li>Smart energy solutions</li>
+            <li>Continuous R&D</li>
+            <li>Solar storage technology</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Value 4: Community -->
+      <div class="col-md-6 col-lg-3">
+        <div class="value-card h-100 p-4 text-center bg-white rounded shadow-sm">
+          <div class="value-icon mb-4">
+            <i class="fas fa-users fa-3x" style="color: #f72585;"></i>
+          </div>
+          <h3 class="h4 mb-3">Community</h3>
+          <ul class="text-start ps-3">
+            <li>Green energy education</li>
+            <li>Local job creation</li>
+            <li>Energy access for all</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Value Proposition -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <div class="value-proposition p-4 p-md-5 rounded" style="background: linear-gradient(135deg, #0e0e0e, #101010); color: white;">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <h3 class="mb-3">The Solar Shops Difference</h3>
+              <p class="mb-md-0">From consultation to installation and beyond, we deliver reliable, efficient solar solutions tailored to your needs, ensuring a brighter, cleaner tomorrow.</p>
+            </div>
+            <div class="col-md-4 text-center text-md-end mt-3 mt-md-0">
+              <a href="#" class="btn btn-outline-light btn-lg">Our Solar Process</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Solar Shops Journey Section -->
+<section class="journey-section py-5 bg-white">
+  <div class="container">
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-10 text-center">
+        <h2 class="display-4 mb-3">Our Journey</h2>
+        <p class="lead">From humble beginnings to solar industry leadership</p>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline">
+      <!-- Timeline Item 1 -->
+      <div class="timeline-item">
+        <div class="timeline-year">2006</div>
+        <div class="timeline-content">
+          <h3>Humble Beginnings</h3>
+          <div class="timeline-image">
+            <img src="https://via.placeholder.com/400x300?text=Solar+Startup" alt="Early solar operation" class="img-fluid rounded">
+          </div>
+          <ul>
+            <li>Founded by a team passionate about renewable energy</li>
+            <li>Started with small-scale solar installations</li>
+            <li>Developed proprietary solar solutions</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Timeline Item 2 -->
+      <div class="timeline-item">
+        <div class="timeline-year">2014</div>
+        <div class="timeline-content">
+          <h3>Expanding Access</h3>
+          <div class="timeline-image">
+            <img src="https://via.placeholder.com/400x300?text=First+Major+Project" alt="First major project" class="img-fluid rounded">
+          </div>
+          <ul>
+            <li>Completed first large-scale commercial solar project</li>
+            <li>Expanded product offerings to batteries and inverters</li>
+            <li>Launched solar education programs</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Timeline Item 3 -->
+      <div class="timeline-item">
+        <div class="timeline-year">2018</div>
+        <div class="timeline-content">
+          <h3>Innovation & Growth</h3>
+          <div class="timeline-image">
+            <img src="https://via.placeholder.com/400x300?text=Innovation" alt="Innovation" class="img-fluid rounded">
+          </div>
+          <ul>
+            <li>Introduced smart solar solutions</li>
+            <li>Opened flagship solar showroom</li>
+            <li>Received industry awards for innovation</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Timeline Item 4 -->
+      <div class="timeline-item">
+        <div class="timeline-year">2021</div>
+        <div class="timeline-content">
+          <h3>National Reach</h3>
+          <div class="timeline-image">
+            <img src="https://via.placeholder.com/400x300?text=Expansion" alt="Expansion" class="img-fluid rounded">
+          </div>
+          <ul>
+            <li>Expanded operations nationwide</li>
+            <li>Built state-of-the-art solar facilities</li>
+            <li>Launched community solar initiatives</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Timeline Item 5 -->
+      <div class="timeline-item">
+        <div class="timeline-year">Present</div>
+        <div class="timeline-content">
+          <h3>Industry Leadership</h3>
+          <div class="timeline-image">
+            <img src="https://via.placeholder.com/400x300?text=Current+Operations" alt="Current operations" class="img-fluid rounded">
+          </div>
+          <ul>
+            <li>Multiple locations across the country</li>
+            <li>Recognized as a top solar solutions provider</li>
+            <li>Continuing to innovate and expand green energy access</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <a href="{{ url_for('main.products') }}" class="btn btn-primary btn-lg px-4 py-3">
+          <i class="fas fa-solar-panel me-2"></i>Explore Our Solar Solutions
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Leadership Team Section -->
+<section class="leadership-section py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-8 text-center">
+        <h2 class="display-4 mb-3">Our Leadership</h2>
+        <p class="lead">The visionaries and engineers behind Solar Shops</p>
+      </div>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+      <!-- Founder 1 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="leader-card text-center bg-white p-4 rounded shadow-sm h-100">
+          <div class="leader-photo mb-4">
+            <img src="https://via.placeholder.com/300x300?text=Founder" alt="Solar Shops Founder" class="img-fluid rounded-circle">
+          </div>
+          <h3 class="h4">Founder & CEO</h3>
+          <p class="text-muted">Co-Founder & Chief Executive Officer</p>
+          <div class="leader-bio">
+            <p>One of the original founders who established Solar Shops' commitment to renewable energy in 2006. Leads innovation and company vision.</p>
+          </div>
+          <div class="leader-social mt-3">
+            <a href="#" class="text-secondary mx-2"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Operations Lead -->
+      <div class="col-md-6 col-lg-4">
+        <div class="leader-card text-center bg-white p-4 rounded shadow-sm h-100">
+          <div class="leader-photo mb-4">
+            <img src="https://via.placeholder.com/300x300?text=Operations" alt="Operations Lead" class="img-fluid rounded-circle">
+          </div>
+          <h3 class="h4">Operations Director</h3>
+          <p class="text-muted">Director of Operations</p>
+          <div class="leader-bio">
+            <p>Oversees Solar Shops' nationwide operations, ensuring quality and efficiency in every project.</p>
+          </div>
+          <div class="leader-social mt-3">
+            <a href="#" class="text-secondary mx-2"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Engineering Lead -->
+      <div class="col-md-6 col-lg-4">
+        <div class="leader-card text-center bg-white p-4 rounded shadow-sm h-100">
+          <div class="leader-photo mb-4">
+            <img src="https://via.placeholder.com/300x300?text=Engineering" alt="Engineering Lead" class="img-fluid rounded-circle">
+          </div>
+          <h3 class="h4">Head of Engineering</h3>
+          <p class="text-muted">Chief Engineer</p>
+          <div class="leader-bio">
+            <p>Leads Solar Shops' engineering team, developing innovative solar solutions and ensuring technical excellence.</p>
+          </div>
+          <div class="leader-social mt-3">
+            <a href="#" class="text-secondary mx-2"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leadership Philosophy -->
+    <div class="row mt-5">
+      <div class="col-12">
+        <div class="philosophy-card p-4 p-md-5 rounded text-center" style="background: linear-gradient(135deg, #070707, #09090a); color: white;">
+          <h3 class="mb-4">Innovation-Driven Leadership</h3>
+          <p class="lead mb-4">"Our team remains committed to advancing solar technology and making renewable energy accessible for all."</p>
+          <a href="#" class="btn btn-outline-light btn-lg">Meet Our Team</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Solar Shops CTA Section -->
+<section class="jungle-cta py-5" style="background: linear-gradient(135deg, #090909 0%, #090909 100%);">
+  <div class="container text-center">
+    <h2 class="text-white mb-3">Join the Solar Movement</h2>
+    <p class="text-light mb-4">Connect with leading solar experts and discover exclusive offers</p>
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+      <!-- Residential Button -->
+      <a href="{{ url_for('main.register') }}" class="btn btn-jungle btn-lg px-4 py-3">
+        <i class="fas fa-solar-panel me-2"></i>Get a Free Solar Quote
+      </a>
+      <!-- Commercial Button -->
+      <a href="{{ url_for('main.contact') }}" class="btn btn-outline-jungle btn-lg px-4 py-3">
+        <i class="fas fa-building me-2"></i>Commercial Solutions
+      </a>
+    </div>
+    <div class="mt-4">
+      <p class="text-light small mb-1">Nonprofits & Community Groups receive special discounts</p>
+      <a href="{{ url_for('main.login') }}" class="text-warning small">Contact us for eligibility <i class="fas fa-chevron-right ms-1"></i></a>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/about.js') }}"></script>
+{% endblock %}

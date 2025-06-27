@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="contact-container">
+    <div class="contact-info">
+        <h1>Get in Touch</h1>
+        <p class="lead">Have questions? We'd love to hear from you.</p>
+        
+        <div class="info-items">
+            <div class="info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <h3>Address</h3>
+                    <a href="https://www.google.com/maps/search/?api=1&query=123+Commerce+Street+Business+City+ST+12345" target="_blank">
+                        <p>Limbe Isokolo,<br>Cameroon</p>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <i class="fas fa-phone"></i>
+                <div>
+                    <h3>Phone</h3>
+                    <a href="tel:+11234567890">
+                        <p>+41 77 279 13 16</p>
+                    </a>
+                                   
+            </div>
+                         
+              </div>
+            <div class="info-item">
+                <i class="fas fa-envelope"></i>
+                <div>
+                    <h3>Email</h3>
+                   <a href="mailto:support@eshop.com">
+                        <p>lug.limbe@gmail.com</p>
+                    </a>
+                                          
+             </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="contact-form-container">
+        <form id="contactForm" class="contact-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">
+                <span class="btn-text">Send Message</span>
+                <span class="btn-loading d-none">
+                    <span class="spinner-border spinner-border-sm"></span>
+                    Sending...
+                </span>
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/contact.js') }}"></script>
+{% endblock %}

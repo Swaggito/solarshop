@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Admin Notifications{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Notifications</h1>
+            {% if notifications %}
+            <form id="clearAllForm" method="post" action="{{ url_for('main.clear_all_notifications') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button id="clearAllBtn" type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to clear all notifications?');">
+                    <i class="fas fa-trash-alt me-2"></i>Clear All
+                </button>
+            </form>
+            {% endif %}
+        </div>
+        <div class="list-group" id="notificationsList">
+            {% for notification in notifications %}
+            <div class="list-group-item {% if not notification.read %}list-group-item-warning{% endif %}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                        {% if notification.type == 'order_processing' %}
+                        <i class="fas fa-box"></i>
+                        {% endif %}
+                        Order #{{ notification.order_id }}
+                    </h5>
+                    <small>{{ notification.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                </div>
+                <p class="mb-1 text-pre-wrap">{{ notification.message }}</p>
+                <div class="mt-2">
+                    <a href="{{ url_for('main.view_order', id=notification.order_id) }}" 
+                       class="btn btn-sm btn-primary">Process Order</a>
+                    {% if not notification.read %}
+                    <a href="{{ url_for('main.mark_notification_read', id=notification.id) }}" 
+                       class="btn btn-sm btn-success">Mark as Read</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .text-pre-wrap {
+        white-space: pre-wrap;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('clearAllBtn')?.addEventListener('click', async function() {
+    if (!confirm('Are you sure you want to clear all notifications?')) return;
+    try {
+        const response = await fetch("{{ url_for('main.clear_all_notifications') }}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': "{{ csrf_token() }}"
+            }
+        });
+        const data = await response.json();
+        if (data.success) {
+            document.getElementById('notificationsList').innerHTML = '<div class="alert alert-info">No notifications</div>';
+            document.getElementById('clearAllBtn').remove();
+        } else {
+            alert('Failed to clear notifications: ' + data.message);
+        }
+    } catch (error) {
+        alert('Failed to clear notifications: ' + error.message);
+    }
+});
+</script>
+{% endblock %}

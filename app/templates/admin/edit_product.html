@@ -1,0 +1,75 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Edit Product{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Edit Product: {{ product.name }}</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.name.label(class="form-label") }}
+                        {{ form.name(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.description.label(class="form-label") }}
+                        {{ form.description(class="form-control", rows="5") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.price.label(class="form-label") }}
+                        {{ form.price(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.brand.label(class="form-label") }}
+                        {{ form.brand(class="form-select") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.category.label(class="form-label") }}
+                        {{ form.category(class="form-select") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.image1.label(class="form-label") }}
+                        {{ form.image1(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.image2.label(class="form-label") }}
+                        {{ form.image2(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.image3.label(class="form-label") }}
+                        {{ form.image3(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.image4.label(class="form-label") }}
+                        {{ form.image4(class="form-control") }}
+                    </div>
+                    
+                    {% if product.images %}
+                    <div class="mb-3">
+                        <label class="form-label">Current Images</label>
+                        <div class="row">
+                            {% for image in product.images %}
+                            <div class="col-md-3">
+                                <img src="{{ url_for('static', filename='uploads/' + image.image) }}" 
+                                     class="img-thumbnail" alt="{{ product.name }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div>
+                        <button type="submit" class="btn btn-primary">Update Product</button>
+                        <a href="{{ url_for('main.product_management') }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

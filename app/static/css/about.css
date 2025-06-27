@@ -1,0 +1,438 @@
+/* About Page Styles */
+
+.about-hero {
+    background-image: url("{{ url_for('static', filename='images/untitled.jpge') }}");
+    background-size: cover;
+    background-position: center;
+    color: rgb(16, 15, 15);
+    padding: 100px 20px;
+    text-align: center;
+    position: relative;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+ .mission-section {
+    background-color: #f8f9fa;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .mission-statement {
+    border-left: 4px solid #060606;
+    background-color: rgba(67, 97, 238, 0.05);
+  }
+  
+  .mission-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 3px solid #0e0e0f;
+  }
+  
+  .mission-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+  }
+  
+  .mission-list {
+    padding-left: 1.2rem;
+    list-style-type: none;
+  }
+  
+  .mission-list li {
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+  
+  .mission-list li:before {
+    content: "•";
+    color: #0b0b0c;
+    font-weight: bold;
+    display: inline-block; 
+    width: 1em;
+    margin-left: -1em;
+  }
+  
+  .philosophy-quote {
+    font-size: 1.4rem;
+    color: #2c3e50;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  }
+  
+  .icon-wrapper {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(67, 97, 238, 0.1);
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+  }
+.stat-item {
+    text-align: center;
+}
+.values-section {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .value-card {
+    transition: all 0.3s ease;
+    border-top: 3px solid transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .value-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+  }
+  
+  .value-card:nth-child(1):hover {
+    border-top-color: #38a169;
+  }
+  
+  .value-card:nth-child(2):hover {
+    border-top-color: #060606;
+  }
+  
+  .value-card:nth-child(3):hover {
+    border-top-color: #d69e2e;
+  }
+  
+  .value-card:nth-child(4):hover {
+    border-top-color: #f72585;
+  }
+  
+  .value-icon {
+    transition: transform 0.5s ease;
+  }
+  
+  .value-card:hover .value-icon {
+    transform: rotate(15deg) scale(1.1);
+  }
+  
+  .value-proposition {
+    box-shadow: 0 5px 15px rgba(58, 12, 163, 0.3);
+  }
+  
+  .value-proposition .btn {
+    transition: all 0.3s ease;
+  }
+  
+  .value-proposition .btn:hover {
+    background-color: white;
+    color: #121212 !important;
+  }
+  
+  .values-section ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .values-section li {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .values-section li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #070708;
+    font-weight: bold;
+  }
+
+ .journey-section {
+    position: relative;
+  }
+  
+  .timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 50px;
+  }
+  
+  .timeline::before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    background-color: #030304;
+    top: 0;
+    bottom: 0;
+    left: 50px;
+    margin-left: -2px;
+    border-radius: 10px;
+  }
+  
+  .timeline-item {
+    position: relative;
+    margin-bottom: 50px;
+  }
+  
+  .timeline-year {
+    position: absolute;
+    left: -100px;
+    width: 80px;
+    background: #251aa6e9;
+    color: white;
+    text-align: center;
+    padding: 8px 0;
+    border-radius: 30px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+  }
+  
+  .timeline-content {
+    position: relative;
+    padding: 20px 30px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border-left: 3px solid #050505;
+    margin-left: 60px;
+  }
+  
+  .timeline-content h3 {
+    color: #0b0b0b;
+    margin-bottom: 15px;
+  }
+  
+  .timeline-image {
+    margin-bottom: 15px;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  
+  .timeline-image img {
+    transition: transform 0.5s ease;
+  }
+  
+  .timeline-image:hover img {
+    transform: scale(1.05);
+  }
+  
+  .timeline-content ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .timeline-content li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 10px;
+  }
+  
+  .timeline-content li:before {
+    content: "•";
+    color: #293131;
+    font-size: 1.5rem;
+    position: absolute;
+    left: 0;
+    top: -5px;
+  }
+  
+  .timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 4px solid hsl(211, 37%, 22%);
+    border-radius: 50%;
+    top: 0;
+    left: 40px;
+    z-index: 1;
+  }
+  
+  @media (max-width: 768px) {
+    .timeline {
+      padding-left: 0;
+    }
+    
+    .timeline::before {
+      left: 30px;
+    }
+    
+    .timeline-year {
+      position: static;
+      display: inline-block;
+      margin-bottom: 15px;
+      left: auto;
+    }
+    
+    .timeline-content {
+      margin-left: 40px;
+    }
+    
+    .timeline-item::after {
+      left: 20px;
+    }
+  }
+ .leadership-section {
+    position: relative;
+  }
+  
+  .leader-card {
+    transition: all 0.3s ease;
+    border-top: 3px solid transparent;
+  }
+  
+  .leader-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    border-top: 3px solid #0c0c0c;
+  }
+  
+  .leader-photo {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    border: 3px solid #f8f9fa;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .leader-card:hover .leader-photo {
+    transform: scale(1.05);
+    border-color: hsl(0, 0%, 1%);
+  }
+  
+  .leader-bio {
+    min-height: 100px;
+  }
+  
+  .leader-social i {
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+  }
+  
+  .leader-social a:hover i {
+    color: #070707 !important;
+    transform: scale(1.2);
+  }
+  
+  .philosophy-card {
+    box-shadow: 0 10px 30px rgba(58, 12, 163, 0.2);
+  }
+  
+  .philosophy-card .btn {
+    transition: all 0.3s ease;
+    border-width: 2px;
+  }
+  
+  .philosophy-card .btn:hover {
+    background-color: white;
+    color: hsl(132, 98%, 49%) !important;
+    transform: translateY(-2px);
+  }
+  
+  @media (max-width: 768px) {
+    .leader-photo {
+      width: 120px;
+      height: 120px;
+    }
+  }
+
+  .jungle-cta {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .jungle-cta::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("{{ url_for('static', filename='images/jungle-pattern.png') }}");
+    opacity: 0.05;
+    pointer-events: none;
+  }
+  
+  .btn-jungle {
+    background-color: #4cc9f0;
+    color: #1a1a2e;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-jungle:hover {
+    background-color: #f0f6f6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(76, 201, 240, 0.4);
+  }
+  
+  .btn-outline-jungle {
+    color: white;
+    border: 2px solid #4cc9f0;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-outline-jungle:hover {
+    background-color: rgba(15, 227, 68, 0.388);
+    border-color: white;
+    color: white;
+    transform: translateY(-2px);
+  }
+  
+  @media (max-width: 576px) {
+    .jungle-cta .btn {
+      width: 100%;
+    }
+    
+    .d-flex {
+      flex-direction: column;
+      gap: 1rem !important;
+    }
+  }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .timeline::before {
+        left: 30px;
+    }
+    
+    .timeline-content {
+        width: auto;
+        margin-left: 70px;
+        margin-right: 20px;
+    }
+    
+    .timeline-item:nth-child(even) .timeline-content,
+    .timeline-item:nth-child(odd) .timeline-content {
+        left: 0;
+    }
+    
+    .timeline-date {
+        left: 30px;
+        transform: none;
+    }
+    
+    .mission-stats {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
